@@ -73,4 +73,7 @@
  */
 - (JSQMessagesBubbleImage *)incomingMessagesBubbleImageWithColor:(UIColor *)color;
 
+- (JSQMessagesBubbleImage *)outgoingRedPacketMessagesBubbleImageWithColor:(UIColor *)topColor bottom:(UIColor *)bottomColor;
+- (JSQMessagesBubbleImage *)incomingRedPacketMessagesBubbleImageWithColor:(UIColor *)topColor bottom:(UIColor *)bottomColor;
+
 @end

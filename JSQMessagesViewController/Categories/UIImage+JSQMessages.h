@@ -28,6 +28,7 @@
  *  @return A new image object masked with the specified color.
  */
 - (UIImage *)jsq_imageMaskedWithColor:(UIColor *)maskColor;
+- (UIImage *)jsq_zebraImageMaskedWithColor:(UIColor *)zebraColor next:(UIColor *)zebraColor1;
 
 /**
  *  @return The regular message bubble image.

@@ -48,6 +48,33 @@
     return newImage;
 }
 
+- (UIImage *)jsq_zebraImageMaskedWithColor:(UIColor *)zebraColor next:(UIColor *)zebraColor1
+{
+    CGRect imageRect = CGRectMake(0.0f, 0.0f, self.size.width, self.size.height);
+    UIImage *newImage = nil;
+
+    UIGraphicsBeginImageContextWithOptions(imageRect.size, NO, self.scale);
+    {
+        CGContextRef context = UIGraphicsGetCurrentContext();
+
+        CGContextScaleCTM(context, 1.0f, -1.0f);
+        CGContextTranslateCTM(context, 0.0f, -(imageRect.size.height));
+
+        CGContextClipToMask(context, imageRect, self.CGImage);
+        CGContextSetFillColorWithColor(context, zebraColor.CGColor);
+        CGContextFillRect(context, imageRect);
+
+        CGContextClipToMask(context, imageRect, self.CGImage);
+        CGContextSetFillColorWithColor(context, zebraColor1.CGColor);
+        CGContextFillRect(context, CGRectMake(0, 0, self.size.width, 17.0f));
+
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+    }
+    UIGraphicsEndImageContext();
+
+    return newImage;
+}
+
 + (UIImage *)jsq_bubbleImageFromBundleWithName:(NSString *)name
 {
     NSString *imagePath = [[NSBundle bundleForClass:[JSQMessagesViewController class]]

@@ -63,7 +63,7 @@
 
 - (instancetype)init
 {
-    return [self initWithBubbleImage:[UIImage jsq_bubbleCompactImage] capInsets:UIEdgeInsetsZero];
+    return [self initWithBubbleImage:[UIImage jsq_bubbleRegularImage] capInsets:UIEdgeInsetsZero];
 }
 
 - (void)dealloc
@@ -81,6 +81,14 @@
 - (JSQMessagesBubbleImage *)incomingMessagesBubbleImageWithColor:(UIColor *)color
 {
     return [self jsq_messagesBubbleImageWithColor:color flippedForIncoming:YES];
+}
+
+- (JSQMessagesBubbleImage *)outgoingRedPacketMessagesBubbleImageWithColor:(UIColor *)topColor bottom:(UIColor *)bottomColor {
+    return [self jsq_zebraMessagesBubbleImageWithColor:topColor bottom:bottomColor flippedForIncoming:NO];
+}
+
+- (JSQMessagesBubbleImage *)incomingRedPacketMessagesBubbleImageWithColor:(UIColor *)topColor bottom:(UIColor *)bottomColor {
+    return [self jsq_zebraMessagesBubbleImageWithColor:topColor bottom:bottomColor flippedForIncoming:YES];
 }
 
 #pragma mark - Private
@@ -109,6 +117,23 @@
     
     return [[JSQMessagesBubbleImage alloc] initWithMessageBubbleImage:normalBubble highlightedImage:highlightedBubble];
 }
+
+- (JSQMessagesBubbleImage *)jsq_zebraMessagesBubbleImageWithColor:(UIColor *)topColor bottom:(UIColor *)bottomColor flippedForIncoming:(BOOL)flippedForIncoming
+{
+    UIImage *normalBubble = [self.bubbleImage jsq_zebraImageMaskedWithColor:topColor next:bottomColor];
+    UIImage *highlightedBubble = normalBubble;
+
+    if (flippedForIncoming) {
+        normalBubble = [self jsq_horizontallyFlippedImageFromImage:normalBubble];
+        highlightedBubble = [self jsq_horizontallyFlippedImageFromImage:highlightedBubble];
+    }
+
+    normalBubble = [self jsq_stretchableImageFromImage:normalBubble withCapInsets:self.capInsets];
+    highlightedBubble = [self jsq_stretchableImageFromImage:highlightedBubble withCapInsets:self.capInsets];
+
+    return [[JSQMessagesBubbleImage alloc] initWithMessageBubbleImage:normalBubble highlightedImage:highlightedBubble];
+}
+
 
 - (UIImage *)jsq_horizontallyFlippedImageFromImage:(UIImage *)image
 {
